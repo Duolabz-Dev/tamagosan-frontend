@@ -1,23 +1,22 @@
 import logo from './logo.svg';
 import './App.css';
+import NavigationBar from './Components/NavigationBar';
+import Body from './Components/Body';
+import { createContext,useState } from 'react';
+
+export const AppContext = createContext()
 
 function App() {
+
+  const[connected,setConnected] = useState(false)
+  const[provider,setProvider] = useState(null)
+  const[address,setAddress] = useState(null)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App text">
+      <AppContext.Provider value={[connected,setConnected,provider,setProvider,address,setAddress]}>
+        <NavigationBar></NavigationBar>
+        <Body/>
+      </AppContext.Provider>
     </div>
   );
 }

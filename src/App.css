@@ -1,38 +1,104 @@
+body{
+  background-image: url('./Assets/Images/back\ layer\ -min.png');
+  background-position: center;
+}
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.text{
+  font-family: MarkUp;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+.outline{
+  border: 5px;
+  border-color: black;
+  border-style: solid;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* navbar css */
+.navbarMain{
+background-color: transparent;
+}
+.navLogo{
+  width: 200px;
+  margin-left: 20px;
+}
+
+.navConnectBtn{
+  background-color: rgb(249, 228, 0) !important;
+  border: 0px !important;
+  color: black !important;
+  margin-right: 25px;
+  font-weight: bold !important;
+}
+
+/* navbar css */
+
+/* body */
+.bodyDiv{
   display: flex;
-  flex-direction: column;
+  justify-content: space-around;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin-top: 20px;
+}
+.bodyTextDiv{
+  display: flex;
+  align-items: center;
+}
+.bodyText{
+  margin-left:'-320px'
+}
+.mintBtn{
+  background-color: rgb(248, 102, 126) !important;
+  border: 0 !important;
+}
+.mintStakeBtn{
+  background-color: rgb(102, 153, 248) !important;
+  border: 0 !important;
+}
+.eggHolder{
+  border: 2px;
+  border-style: solid;
+  border-radius: 20px;
+  border-color: rgb(0, 0, 0);
+  width: 200px;
+  height: 200px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  position:absolute;
+}
+/* body */
+
+@font-face {
+  font-family: MarkUp;
+  src: url('./Assets/Fonts/Markup\ W00\ Regular.ttf');
 }
 
-.App-link {
-  color: #61dafb;
+@media (max-width: 768px){
+    .bodyDiv{
+      display: inline;
+    }
+    .bodyText{
+      margin-top: 50px;
+      margin-left: 0;
+    }
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.partsHolder{
+  height:60px;
+  width: 60px;
+  border-radius: 15px;
+  margin: 5px;
+  background-color: rgb(255, 234, 186);
+}
+
+.selected{
+  border: 1px black solid;
+}
+
+.nooutline{
+  border:0px
 }
