@@ -158,7 +158,7 @@ const Demo = (props) =>{
 
     async function addStake(e){
         console.log(e)
-        e.target.innerHTML ="Approving..."
+        e.target.innerHTML ="Approving.."
         await approve(e)
         e.target.innerHTML="Staking..."
         // console.log('wow')
