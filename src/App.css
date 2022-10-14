@@ -88,8 +88,8 @@ background-color: transparent;
 }
 
 .partsHolder{
-  height:60px;
-  width: 60px;
+  height:90px;
+  width: 90px;
   border-radius: 15px;
   margin: 5px;
   background-color: rgb(255, 234, 186);
@@ -102,3 +102,33 @@ background-color: transparent;
 .nooutline{
   border:0px
 }
+
+.partsDiv{
+
+}
+
+.CLASSIC{
+  color: white;
+  border-radius: 20px;
+  background-color: red;
+  margin: 8px;
+}
+
+.ADVANCED{
+  color: white;
+  border-radius: 20px;
+  background-color: orange;
+  margin: 8px;
+}
+
+.LEGENDARY{
+  color: white;
+  border-radius: 20px;
+  background-color: rgb(2, 185, 2);
+  margin: 8px;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+
+
