@@ -197,6 +197,7 @@ const Demo = (props) =>{
             document.getElementById('txt').style.marginTop='300px'
             document.getElementById('txt').style.display='inline'
             
+            document.getElementById('stakeBTN').style.display='none'
         }
         else{
             e.target.innerHTML="Failed...Try again!"
@@ -252,7 +253,7 @@ const Demo = (props) =>{
             }
 
             </div>
-            <Button style={{marginTop:'10px',marginBottom:'10px'}} onClick={(e)=>{addStake(e)}} className="mintBtn">Stake</Button>
+            <Button id='stakeBTN' style={{marginTop:'10px',marginBottom:'10px'}} onClick={(e)=>{addStake(e)}} className="mintBtn">Stake</Button>
         </div>
     );
 }
