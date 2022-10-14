@@ -18,6 +18,7 @@ const Demo = (props) =>{
 
     var baseURI = 'https://tamagosan.herokuapp.com/metadataTrait/'
     var baseURL = 'https://tamagosan.herokuapp.com/'
+    // var baseURL = 'http://127.0.0.1:8000/'
     const [part1,setPart1]=useState('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')
     const [part2,setPart2]=useState('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')
     const [part3,setPart3]=useState('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')
@@ -118,19 +119,19 @@ const Demo = (props) =>{
             }
         }
         else if(category==='NOSE'){
-            if(part6 === image){
+            if(part7 === image){
                 setPart6('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')
             }
-            else{setPart6(image)
+            else{setPart7(image)
                 e.target.classList.toggle('outline')}
         }
         else if(category==='MOUTH'){
             
-           if(part7 === image){
-                setPart7('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')
+           if(part6 === image){
+                setPart6('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')
             }
             else{
-                setPart7(image)
+                setPart6(image)
                 e.target.classList.toggle('outline')
             }
         }
@@ -173,7 +174,7 @@ const Demo = (props) =>{
     async function addStake(e){
         console.log(e)
         e.target.innerHTML ="Approving.."
-        await approve(e)
+        //await approve(e)
         e.target.innerHTML="Staking..."
         
         var selectedParts = document.getElementsByClassName('outline')
@@ -191,6 +192,7 @@ const Demo = (props) =>{
         var tx = await contract.stakeParts(props.mintedTamago,tokenIDs,amounts)
         var result = await tx.wait()
         if(result['status']===1){
+        // if(true){
             await requestServer(tokenIDs)
             document.getElementById('partsDiv').style.display='none'
             document.getElementById('eggs').style.display='none'
