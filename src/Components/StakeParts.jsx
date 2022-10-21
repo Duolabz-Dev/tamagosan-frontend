@@ -184,7 +184,7 @@ const StakeParts = (props) =>{
         console.log(tokenIDs)
         console.log(amounts)
         
-        var tx = await contract.stakeParts(props.mintedTamago,tokenIDs,amounts)
+        var tx = await contract.stakeParts(props.mintedTamago,tokenIDs,tokenIDs,amounts)
         var result = await tx.wait()
         if(result['status']===1){
         // if(true){

@@ -685,6 +685,11 @@
 			},
 			{
 				"internalType": "uint256[]",
+				"name": "stakeIDs",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256[]",
 				"name": "amounts",
 				"type": "uint256[]"
 			}

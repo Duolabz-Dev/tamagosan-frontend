@@ -8,8 +8,9 @@ import { ConnectionContext } from '../App'
 import { useNavigate } from 'react-router-dom'
 
 const NavigationBar = () => {
-
+    // polygon mumbai
     const correctChain = '0x13881'
+    // ganache testing
     // const correctChain = '0x1691'
 
     const [connected, setConnected, provider, setProvider, address, setAddress, , setIsChainCorrect] = useContext(ConnectionContext)

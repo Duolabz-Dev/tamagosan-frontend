@@ -12,14 +12,14 @@ export const ContractContext = createContext()
 export const ServerContext = createContext()
 
 function App() {
-  const NFTAddress = '0xDAfA4f89465E8cda2047091a2D01a07e62050d8B'
-  const TraitAddress = '0xD31D396a23F7F3687e24627adeE961f7854E5a00'
+  const NFTAddress = '0x391cDfe4De2CCc87fC668c7f66D613B132cd6466'
+  const TraitAddress = '0x53a317D3ad5ecC1AFdC3D07315696857fE004089'
   const [connected, setConnected] = useState(false)
   const [provider, setProvider] = useState(null)
   const [address, setAddress] = useState(null)
   const [isChainCorrect,setIsChainCorrect] = useState(null)
   const serverURL = 'https://tamagosan.herokuapp.com/'
-  //const serverURL = 'http://127.0.0.1:8000/'
+  // const serverURL = 'http://127.0.0.1:8000/'
   
   return (
     <div className="App text">
