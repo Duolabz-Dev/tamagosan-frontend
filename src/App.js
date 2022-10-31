@@ -12,13 +12,13 @@ export const ContractContext = createContext()
 export const ServerContext = createContext()
 
 function App() {
-  const NFTAddress = '0x391cDfe4De2CCc87fC668c7f66D613B132cd6466'
-  const TraitAddress = '0x53a317D3ad5ecC1AFdC3D07315696857fE004089'
+  const NFTAddress = '0xB03Ef8224206Dc6C31c64ef8778f4b016Fa54B7C'
+  const TraitAddress = '0x553B871e97AAd05555655A8D99d5e07f17DA4925'
   const [connected, setConnected] = useState(false)
   const [provider, setProvider] = useState(null)
   const [address, setAddress] = useState(null)
   const [isChainCorrect,setIsChainCorrect] = useState(null)
-  const serverURL = 'https://tamagosan.herokuapp.com/'
+  const serverURL = 'https://tamagosan-server-cmh4q.ondigitalocean.app/'
   // const serverURL = 'http://127.0.0.1:8000/'
   
   return (
