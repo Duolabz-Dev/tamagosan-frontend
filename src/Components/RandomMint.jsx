@@ -12,7 +12,7 @@ const RandomMint = () => {
     const [NFTABI, TraitABI, NFTAddress, TraitAddress] = useContext(ContractContext)
     const [connected, setConnected, provider, , address, setAddress, isChainCorrect] = useContext(ConnectionContext)
     const [serverUrl] = useContext(ServerContext)
-    const [image, setImage] = useState(egg)
+    // const [image, setImage] = useState(egg)
     const [minted, setMinted] = useState(false)
     const [mintedIDs, setMintedIDs] = useState()
     const [mintedTamago, setMintedTamago] = useState()
@@ -65,7 +65,7 @@ const RandomMint = () => {
             <>
                 <div>
                     <div>
-                        <img className='eggHolder' style={{ position: 'relative' }} src={image} />
+                        <img className='eggHolder' style={{ position: 'relative' }} src={egg} />
                     </div>
                     <Button onClick={(e) => mintRandom(e)} className='mintBtn'>Random Mint!</Button>
                 </div>

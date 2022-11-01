@@ -11,6 +11,7 @@ const StakeParts = (props) =>{
 
 
     const[serverURl]= useContext(ServerContext)
+    const tamagoURL = 'https://tamagosan.fra1.digitaloceanspaces.com/tamagosanImage/'
     var transparentImage = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
     const [part1,setPart1]=useState()
     const [part2,setPart2]=useState(transparentImage)
@@ -210,10 +211,10 @@ const StakeParts = (props) =>{
     return(
         <div>
             <div id='eggs'>
-                <img className="partsHolder selected" src={Body}/>
+                <img className="partsHolder selected" src={tamagoURL+props.mintedTamago+'.png'}/>
             </div>
             <div id='tamago' style={{width:'100%',height:'250px',display:'flex',justifyContent:'center'}}>
-                <img className='eggHolder' src={Body}/>
+                <img className='eggHolder' src={tamagoURL+props.mintedTamago+'.png'}/>
                 <img className='eggHolder' src={part1}/>
                 <img className='eggHolder' src={part2}/>
                 <img className='eggHolder' src={part3}/>

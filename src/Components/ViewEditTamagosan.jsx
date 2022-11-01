@@ -11,7 +11,7 @@ const ViewEditTamagosan = () => {
     const [selectedID, setSelectedID] = useState()
     const [connected, setConnected, provider, , address, setAddress, isChainCorrect] = useContext(ConnectionContext)
     const [NFTABI, TraitABI, NFTAddress, TraitAddress] = useContext(ContractContext)
-    const [serverURL] = useContext(ServerContext)
+    const tamagoURL = 'https://tamagosan.fra1.digitaloceanspaces.com/tamagosanImage/'
     const [ownedNFTs, setOwnedNFTs] = useState([])
     const [noNFT, setNoNFT] = useState()
 
@@ -46,7 +46,7 @@ const ViewEditTamagosan = () => {
                     <h3>Owned Tamagosans</h3>
                     {ownedNFTs.map((NFT) => {
                         return (
-                            <img onClick={() => viewStakedParts(NFT)} className='tamagoImage' src={serverURL + 'tamagoImage/' + NFT + '?t='+new Date().getTime()} />
+                            <img onClick={() => viewStakedParts(NFT)} className='tamagoImage' src={tamagoURL + NFT + '.png' + '?t='+new Date().getTime()} />
                         )
                     })}
                 </div>

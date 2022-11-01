@@ -1,6 +1,6 @@
 import { Button } from "react-bootstrap";
 import { useState, useContext } from "react";
-import Body from "../Assets/NFT Layers/Body/1.png"
+// import Body from "../Assets/NFT Layers/Body/1.png"
 import { ConnectionContext, ContractContext, ServerContext } from "../App";
 import { useEffect } from "react";
 import axios from "axios";
@@ -292,7 +292,7 @@ const EditTamagosan = (props) => {
             console.log(amounts)
             
             
-            if(unstakeIDs.length>0){
+            if(unstakeIDs.length>0 && unstakeIDs[0]!=''){
                 var tx = await contract.unstakeParts(props.tokenID, tokenIDsUnStake, unstakeIDs, amounts)
                 var result = await tx.wait()
             }
@@ -335,10 +335,10 @@ const EditTamagosan = (props) => {
     return (
         <div>
             <div id='eggs'>
-                <img className="partsHolder selected" src={Body} />
+                <img className="partsHolder selected" src={serverURl+'tamagoImage/'+props.tokenID} />
             </div>
             <div id='tamago' style={{ width: '100%', height: '250px', display: 'flex', justifyContent: 'center' }}>
-                <img className='eggHolder' src={Body} />
+                <img className='eggHolder' src={serverURl+'tamagoImage/'+props.tokenID} />
                 <img className='eggHolder' src={part1} />
                 <img className='eggHolder' src={part2} />
                 <img className='eggHolder' src={part3} />
