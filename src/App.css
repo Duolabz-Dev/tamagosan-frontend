@@ -42,7 +42,7 @@ background-color: transparent;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 100px;
 }
 .bodyTextDiv{
   display: flex;
@@ -79,7 +79,8 @@ background-color: transparent;
 
 @media (max-width: 768px){
     .bodyDiv{
-      display: inline;
+      display: inline-block;
+      margin-top: 60px;
     }
     .bodyText{
       margin-top: 50px;

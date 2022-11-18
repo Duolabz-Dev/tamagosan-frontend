@@ -8,7 +8,7 @@ import { ethers } from "ethers";
 
 const EditTamagosan = (props) => {
 
-    const [serverURl] = useContext(ServerContext)
+    const [serverURl,spacesURL] = useContext(ServerContext)
     var transparentImage = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
     const [part1, setPart1] = useState()
     const [part2, setPart2] = useState(transparentImage)
@@ -67,7 +67,9 @@ const EditTamagosan = (props) => {
         var arr = stakedIDs
         var responseData = []
         for (var i = 0; i < arr.length; i++) {
-            var response = await axios.get(serverURl + 'metadataTrait/' + arr[i].toString())
+            var response = await axios.get(spacesURL + 'traitMetadata/' + arr[i].toString()+'.json',{headers:{'Content-Type':'application/json'}})
+            console.log('wow')
+            console.log(response)
             responseData.push(response.data)
         }
         seggregateData(responseData)
@@ -335,7 +337,7 @@ const EditTamagosan = (props) => {
     return (
         <div>
             <div id='eggs'>
-                <img className="partsHolder selected" src={serverURl+'tamagoImage/'+props.tokenID} />
+                <img className="partsHolder selected" src={spacesURL+'tamagosanImage/'+props.tokenID+'.png'} />
             </div>
             <div id='tamago' style={{ width: '100%', height: '250px', display: 'flex', justifyContent: 'center' }}>
                 <img className='eggHolder' src={serverURl+'tamagoImage/'+props.tokenID} />

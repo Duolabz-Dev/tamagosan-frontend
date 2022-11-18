@@ -10,7 +10,7 @@ import { ethers } from "ethers";
 const StakeParts = (props) =>{
 
 
-    const[serverURl]= useContext(ServerContext)
+    const[serverURl,spacesURL]= useContext(ServerContext)
     const tamagoURL = 'https://tamagosan.fra1.digitaloceanspaces.com/tamagosanImage/'
     var transparentImage = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
     const [part1,setPart1]=useState()
@@ -32,9 +32,10 @@ const StakeParts = (props) =>{
     useEffect(()=>{
         async function getData() {
             var arr = props.tokenIDs
+            console.log(arr)
             var responseData = []
             for(var i=0;i<arr.length;i++){
-                var response = await axios.get(serverURl+'metadataTrait/'+arr[i].toString())
+                var response = await axios.get(spacesURL + 'traitMetadata/' + arr[i].toString()+'.json',{headers:{'Content-Type':'application/json'}})
                 responseData.push(response.data)
             }
             seggregateData(responseData)
@@ -44,12 +45,14 @@ const StakeParts = (props) =>{
     
     function seggregateData(data){
         var traits = {}
+        console.log(data)
         data.forEach((value)=>{
             if(!traits[value['data']['Trait']]){
                 traits[value['data']['Trait']] = [value['image'],value['data']['Level']]
             }
         }
         )
+        console.log(traits)
         setMinted(traits)
     }
 
