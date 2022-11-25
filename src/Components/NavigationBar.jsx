@@ -3,7 +3,7 @@ import React from 'react'
 import { ethers } from 'ethers'
 import Navbar from 'react-bootstrap/Navbar'
 import logo from '../Assets/Images/logo-min.png'
-import { useContext } from 'react'
+import { useContext,useEffect } from 'react'
 import { ConnectionContext } from '../App'
 import { useNavigate } from 'react-router-dom'
 
@@ -13,7 +13,12 @@ const NavigationBar = () => {
     // ganache testing
     // const correctChain = '0x1691'
 
-    const [connected, setConnected, provider, setProvider, address, setAddress, , setIsChainCorrect] = useContext(ConnectionContext)
+
+    window.ethereum.on('chainChanged',()=>{
+        window.location.reload()
+    })
+
+    const [connected, setConnected, , setProvider, , setAddress, , setIsChainCorrect] = useContext(ConnectionContext)
     const nav =useNavigate()
     async function connect() {
         const provider = new ethers.providers.Web3Provider(window.ethereum)
@@ -29,9 +34,11 @@ const NavigationBar = () => {
         if (chain === correctChain) {
             nav('/mint')
             setIsChainCorrect(true)
+            document.getElementById('connectBtn').classList.toggle('greenBorder')
             setConnected(true)
             setProvider(provider)
             setAddress(account[0])
+            document.body.style.setProperty('background-color','#253b53','important')
         }
         else {
             setIsChainCorrect(false)
@@ -44,7 +51,7 @@ const NavigationBar = () => {
                 <img className='navLogo' src={logo} />
             </Navbar.Brand>
             <Navbar.Collapse className='justify-content-end'>
-                <Button onClick={connect} className='navConnectBtn'>
+                <Button id='connectBtn' onClick={connect} className='navConnectBtn'>
                     {
                         connected ?
                             <>Connected</> :

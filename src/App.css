@@ -1,6 +1,18 @@
+:root{
+  --yellow : #fbe31c;
+  --pink : #f22a83;
+  --light_yellow: #fff06b;
+  --background: #253b53;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
 body{
-  background-image: url('./Assets/Images/back\ layer\ -min.png');
-  background-position: center;
+  /* background-image: url('./Assets/Images/back\ layer\ -min.png'); */
+  background-color: var(--light_yellow) !important;
+  /* background-position: center; */
 }
 
 .App {
@@ -27,12 +39,26 @@ background-color: transparent;
   margin-left: 20px;
 }
 
+.inline{
+  display: inline-block;
+}
+
 .navConnectBtn{
-  background-color: rgb(249, 228, 0) !important;
-  border: 0px !important;
+  background-color: var(--light_yellow) !important;
+  border: 3px solid var(--pink) !important;
   color: black !important;
   margin-right: 25px;
   font-weight: bold !important;
+}
+
+.pinkBtn{
+  background-color: var(--pink) !important; 
+  border: 0 !important;
+  border-radius: 13px !important;
+}
+
+.greenBorder{
+  border: 3px solid rgb(2, 193, 2) !important;
 }
 
 /* navbar css */
@@ -52,23 +78,38 @@ background-color: transparent;
   margin-left:'-320px'
 }
 .mintBtn{
-  background-color: rgb(248, 102, 126) !important;
+  background-color: var(--pink) !important;
   border: 0 !important;
 }
 .mintStakeBtn{
   background-color: rgb(102, 153, 248) !important;
   border: 0 !important;
 }
-.eggHolder{
+.viewEggHolder{
+  position: absolute;
   border: 2px;
   border-style: solid;
   border-radius: 20px;
-  border-color: rgb(0, 0, 0);
-  width: 200px;
-  height: 200px;
-  margin-bottom: 10px;
-  margin-top: 20px;
-  position:absolute;
+  border-color:var(--yellow);
+  width: 300px;
+  height: 300px;
+  right: 0;
+  left: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+.viewSelectedPartsHolder{
+  position: absolute;
+  border: 2px;
+  border-style: solid;
+  border-radius: 20px;
+  border-color:var(--yellow);
+  width: 300px;
+  height: 300px;
+  right: 0;
+  left: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 /* body */
 
@@ -88,9 +129,19 @@ background-color: transparent;
     }
 }
 
+
+
 .partsHolder{
   height:90px;
   width: 90px;
+  border-radius: 15px;
+  margin: 5px;
+  background-color: rgb(255, 234, 186);
+}
+
+.viewPartsHolder{
+  height:80px;
+  width: 80px;
   border-radius: 15px;
   margin: 5px;
   background-color: rgb(255, 234, 186);
@@ -117,15 +168,40 @@ background-color: transparent;
   border:0px
 }
 
-.tamagoContainer{
-  margin-top: 30px;
+.viewHeader{
+  position: relative;
+  margin-top: 40px;
+  background-color: var(--yellow);
+  border-radius: 15px;
+  width: 100%;
+  height: 135px;
+  padding: 10px;
+  display: inline-block;
+}
+
+.viewTamagoContainer{
+  width: 500px;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+
+.viewPimpHeading{
+  color: white;
+  position: absolute;
+  top:-40px;
+  right: 10px;
 }
 
 .tamagoImage{
   width: 100px;
+  height: 100px;
   border: 2px black solid;
   border-radius: 20px;
   margin: 10px;
+  background-image: url('./Assets/Images/egg.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .CLASSIC{
@@ -151,5 +227,75 @@ background-color: transparent;
   margin-right: 3px;
 }
 
+.viewPaging{
+  position: absolute; 
+  background-color: var(--yellow) !important;
+  border: 0 !important;
+  color: black !important;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  top:-30px;
+  left: 30px;
+}
 
+.flex{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
 
+.viewInnerDiv{
+  position: relative;
+  width: 60%;
+}
+
+.viewStakedSection{
+  padding-top: 30px;
+  position: relative;
+  margin-top: 20px;
+  border: 2px solid var(--pink);
+  border-radius: 20px;
+  height: 135px;
+}
+
+.viewPartsAndTamagoSection{
+  margin-top: 20px;
+  height: 460px;
+  display: flex;
+}
+
+.viewPartsSection{
+  padding-top: 30px;
+  position: relative;
+  border: 3px solid var(--yellow);
+  height: 100%;
+  width: 55%;
+  border-radius: 15px;
+  overflow-y: scroll;
+  white-space: nowrap;
+}
+
+.viewTamagoSection{
+  position: relative;
+  width: 45%;
+}
+
+.viewFinalTamagoContainer{
+  position: relative;
+  width: 100%;
+  height: 310px;
+}
+
+.viewAvailablePartsRow{
+  width: 100%;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+
+.randomEggHolder{
+  width: 200px;
+  border: 2px solid #fbe31c;
+  border-radius: 10px;
+  margin: 20px;
+}

@@ -1,6 +1,5 @@
 import { Button } from "react-bootstrap";
 import { useState,useContext } from "react";
-import Body from "../Assets/NFT Layers/Body/1.png"
 import { ConnectionContext,ContractContext, ServerContext } from "../App";
 import { useEffect } from "react";
 import axios from "axios";
@@ -22,12 +21,12 @@ const StakeParts = (props) =>{
     const [part7,setPart7]=useState(transparentImage)
     const [part8,setPart8]=useState(transparentImage)
 
-    const[connected,setConnected,provider,,address,setAddress]=useContext(ConnectionContext)
+    const[,,provider,,address,]=useContext(ConnectionContext)
     const[NFTABI,TraitABI,NFTAddress,TraitAddress] = useContext(ContractContext)
 
-    const [data,setData] = useState([])
+    // const [data,setData] = useState([])
     const [minted,setMinted] = useState([])
-    const[show,setShow] = useState(false)
+    // const[show,setShow] = useState(false)
 
     useEffect(()=>{
         async function getData() {

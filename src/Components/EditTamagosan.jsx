@@ -10,7 +10,7 @@ const EditTamagosan = (props) => {
 
     const [serverURl,spacesURL] = useContext(ServerContext)
     var transparentImage = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
-    const [part1, setPart1] = useState()
+    const [part1, setPart1] = useState(transparentImage)
     const [part2, setPart2] = useState(transparentImage)
     const [part3, setPart3] = useState(transparentImage)
     const [part4, setPart4] = useState(transparentImage)
@@ -19,13 +19,13 @@ const EditTamagosan = (props) => {
     const [part7, setPart7] = useState(transparentImage)
     const [part8, setPart8] = useState(transparentImage)
 
-    const [connected, setConnected, provider, , address, setAddress] = useContext(ConnectionContext)
-    const [NFTABI, TraitABI, NFTAddress, TraitAddress] = useContext(ContractContext)
+    const [, , provider, , address, ] = useContext(ConnectionContext)
+    const [NFTABI, , NFTAddress, TraitAddress] = useContext(ContractContext)
 
-    const [data, setData] = useState([])
+    // const [data, setData] = useState([])
     const [staked, setStaked] = useState([])
     const [stakedIDs, setStakedIDs] = useState([])
-    const [show, setShow] = useState(false)
+    // const [show, setShow] = useState(false)
     const [availableTraits, setAvailableTraits] = useState([])
 
     useEffect(() => {
@@ -46,22 +46,22 @@ const EditTamagosan = (props) => {
         setAvailableTraits(response.data)
     }
 
-    async function approve(e) {
-        try {
-            var contract = new ethers.Contract(TraitAddress, TraitABI, provider.getSigner())
-            var result = await contract.isApprovedForAll(address, NFTAddress)
-            if (result === false) {
-                var tx = await contract.setApprovalForAll(NFTAddress, true)
-                var result = await tx.wait()
-                if (result['status'] === 1) {
-                    console.log('approved')
-                }
-            }
-        }
-        catch (err) {
-            e.target.innerHTML = "Failed..Try again!"
-        }
-    }
+    // async function approve(e) {
+    //     try {
+    //         var contract = new ethers.Contract(TraitAddress, TraitABI, provider.getSigner())
+    //         var result = await contract.isApprovedForAll(address, NFTAddress)
+    //         if (result === false) {
+    //             var tx = await contract.setApprovalForAll(NFTAddress, true)
+    //             var result = await tx.wait()
+    //             if (result['status'] === 1) {
+    //                 console.log('approved')
+    //             }
+    //         }
+    //     }
+    //     catch (err) {
+    //         e.target.innerHTML = "Failed..Try again!"
+    //     }
+    // }
 
     async function getData(stakedIDs) {
         var arr = stakedIDs
@@ -76,7 +76,6 @@ const EditTamagosan = (props) => {
     }
 
     function seggregateData(data) {
-        // {category/trait:[image,level]}
         var traits = {}
         data.forEach((value) => {
             if (!traits[value['data']['Trait']]) {
@@ -262,12 +261,8 @@ const EditTamagosan = (props) => {
     async function editTamagosan(e) {
         console.log(stakedIDs)
 
-        // e.target.innerHTML ="Approving.."
-        // await approve(e)
         var selectedParts = document.getElementsByClassName('outline')
-        // if (selectedParts.length === stakedIDs.length) {
-        //     return
-        // }
+      
         e.target.innerHTML = "Editing..."
         var tokenIDs = []
         var amounts = []
@@ -311,7 +306,7 @@ const EditTamagosan = (props) => {
                     var resultResponse = true
                 }
                 if(resultResponse['status']===1 || resultResponse===true){
-                //if(true){
+            
                 await requestServer(tokenIDs)
                 document.getElementById('partsDiv').style.display = 'none'
                 document.getElementById('secondPartsDiv').style.display = 'none'
@@ -321,7 +316,7 @@ const EditTamagosan = (props) => {
                 document.getElementById('txt1').style.display = 'none'
                 document.getElementById('stakeBTN').style.display = 'none'
                 document.getElementById('availableParts').style.display = 'none'
-                // }
+               
                 }
             }
             else {
@@ -354,7 +349,7 @@ const EditTamagosan = (props) => {
             <h1 id='txt1'>Staked Parts</h1>
             <div id='partsDiv'>
                 {
-                    Object.entries(staked).slice(0, 4).map((value, key) => {
+                    Object.entries(staked).slice(0, 4).map((value, _) => {
                         return (
                             <>
                                 <div style={{ display: 'inline-block' }}>
@@ -370,7 +365,7 @@ const EditTamagosan = (props) => {
             </div>
             <div id='secondPartsDiv'>
                 {
-                    Object.entries(staked).slice(4, staked.length).map((value, key) => {
+                    Object.entries(staked).slice(4, staked.length).map((value, _) => {
                         return (
                             <>
                                 <div style={{ display: 'inline-block' }}>
@@ -389,7 +384,6 @@ const EditTamagosan = (props) => {
                 {
                     Object.entries(availableTraits).map((valueArray) => {
                         return (<div>{valueArray[1].map((value) => {
-                            console.log(value)
                             return (
                                 <div style={{ display: 'inline-block' }}>
                                     <>

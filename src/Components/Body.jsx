@@ -1,7 +1,7 @@
 import React from 'react'
 import { useContext } from 'react'
 import { Button, ButtonGroup } from 'react-bootstrap'
-import { HashRouter, Link, Route, Routes, useNavigate } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import { ConnectionContext } from '../App'
 import Tamagosan from '../Assets/Images/banner image -min.png'
 import RandomMint from './RandomMint'
@@ -9,7 +9,7 @@ import ViewEditTamagosan from './ViewEditTamagosan'
 
 const Body = () => {
 
-    const [connected, setConnected, provider, , address, setAddress, isChainCorrect] = useContext(ConnectionContext)
+    const [connected, , , , , , isChainCorrect] = useContext(ConnectionContext)
     let navigate = useNavigate()
 
     if (!connected) {
