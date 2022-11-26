@@ -18,6 +18,12 @@ const NavigationBar = () => {
         window.location.reload()
     })
 
+    useEffect(()=>{
+        return(()=>{
+            window.ethereum.removeListener('chainChanged',()=>{})
+        })
+    },[])
+
     const [connected, setConnected, , setProvider, , setAddress, , setIsChainCorrect] = useContext(ConnectionContext)
     const nav =useNavigate()
     async function connect() {

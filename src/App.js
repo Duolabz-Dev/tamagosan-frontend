@@ -20,14 +20,13 @@ function App() {
   const [isChainCorrect,setIsChainCorrect] = useState(null)
   const serverURL = 'https://tamagosan-server-cmh4q.ondigitalocean.app/'
   // const serverURL = 'http://127.0.0.1:8000/'
-  const spacesURl = 'https://tamagosan.fra1.digitaloceanspaces.com/'
+  const spacesURl = 'https://tamagosan.fra1.cdn.digitaloceanspaces.com/'
   
   return (
     <div className="App text">
       <ConnectionContext.Provider value={[connected, setConnected, provider, setProvider, address, setAddress,isChainCorrect,setIsChainCorrect]}>
         <ContractContext.Provider value={[NFTABI,TraitABI,NFTAddress,TraitAddress]}>
           <ServerContext.Provider value={[serverURL,spacesURl]}>
-            
             <HashRouter>
             <NavigationBar></NavigationBar>
               <Body />

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useContext } from 'react'
-import { Button, ButtonGroup } from 'react-bootstrap'
+import { Button, ButtonGroup, ToggleButton } from 'react-bootstrap'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import { ConnectionContext } from '../App'
 import Tamagosan from '../Assets/Images/banner image -min.png'
@@ -27,9 +27,9 @@ const Body = () => {
     else if (connected) {
         return (
             <div>
-                <ButtonGroup>
-                    <Button onClick={()=>{navigate('/mint')}}>Mint</Button>
-                    <Button onClick={()=>{navigate('/view')}}>View/Edit</Button>
+                <ButtonGroup style={{marginBottom:'10px'}}>
+                    <ToggleButton variant='outline-warning' type='radio' checked={window.location.href.includes('mint')} onClick={()=>{navigate('/mint')}}>Mint</ToggleButton>
+                    <ToggleButton variant='outline-warning' type='radio' checked={window.location.href.includes('view')}  onClick={()=>{navigate('/view')}}>View/Edit</ToggleButton>
                 </ButtonGroup>
                     <Routes>
                         <Route path='/mint' element={<RandomMint/>}/>

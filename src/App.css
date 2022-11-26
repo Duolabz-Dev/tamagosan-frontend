@@ -3,6 +3,7 @@
   --pink : #f22a83;
   --light_yellow: #fff06b;
   --background: #253b53;
+  --cardboard:#e5dca1;
 }
 
 ::-webkit-scrollbar {
@@ -23,10 +24,18 @@ body{
   font-family: MarkUp;
 }
 
+.centerSpinner{
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
 
 .outline{
   border: 5px;
-  border-color: black;
+  border-color: rgb(255, 255, 255);
   border-style: solid;
 }
 
@@ -136,7 +145,7 @@ background-color: transparent;
   width: 90px;
   border-radius: 15px;
   margin: 5px;
-  background-color: rgb(255, 234, 186);
+  background-color: var(--cardboard);
 }
 
 .viewPartsHolder{
@@ -144,7 +153,7 @@ background-color: transparent;
   width: 80px;
   border-radius: 15px;
   margin: 5px;
-  background-color: rgb(255, 234, 186);
+  background-color: var(--cardboard);
 }
 
 .partsHolderStaked{
@@ -152,7 +161,7 @@ background-color: transparent;
   width: 90px;
   border-radius: 15px;
   margin: 5px;
-  background-color: rgb(255, 234, 186);
+  background-color: var(--cardboard);
   border: 5px;
   border-color: black;
   border-style: solid;
@@ -295,6 +304,7 @@ background-color: transparent;
 
 .randomEggHolder{
   width: 200px;
+  height: 200px;
   border: 2px solid #fbe31c;
   border-radius: 10px;
   margin: 20px;

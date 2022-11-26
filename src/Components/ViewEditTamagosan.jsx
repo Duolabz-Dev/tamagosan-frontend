@@ -1,22 +1,22 @@
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Spinner } from "react-bootstrap";
 import { useContext, useState } from "react";
 import { ConnectionContext, ContractContext, ServerContext } from "../App";
 import { ethers } from "ethers";
 import { useEffect } from "react";
-import EditTamagosan from "./EditTamagosan";
 import axios from "axios";
 
 const ViewEditTamagosan = () => {
 
     const [serverURl, spacesURL] = useContext(ServerContext)
-    const [editMode, setEditMode] = useState(false)
     const [selectedID, setSelectedID] = useState(null)
     const [, , provider, , address, ,] = useContext(ConnectionContext)
     const [NFTABI, TraitABI, NFTAddress, TraitAddress] = useContext(ContractContext)
-    const tamagoURL = 'https://tamagosan.fra1.digitaloceanspaces.com/tamagosanImage/'
+    const tamagoURL = 'https://tamagosan.fra1.cdn.digitaloceanspaces.com/tamagosanImage/'
     const [ownedNFTs, setOwnedNFTs] = useState([])
     const [noNFT, setNoNFT] = useState()
     const [staked, setStaked] = useState([])
+    const [stakedLoading, setStakedLoading] = useState(false)
+    const [tamagoLoading,setTamagoLoading] = useState(false)
     const [stakedIDs, setStakedIDs] = useState([])
     const [availableTraits, setAvailableTraits] = useState([])
     const [hasStakedParts, setHasStakedParts] = useState(true)
@@ -30,21 +30,29 @@ const ViewEditTamagosan = () => {
     const [part7, setPart7] = useState(transparentImage)
     const [part8, setPart8] = useState(transparentImage)
     const [refresh, setRefresh] = useState(true)
-    const [message,setMessage] = useState("UPDATE YOUR TAMAGOSAN!")
+    const [message, setMessage] = useState("UPDATE YOUR TAMAGOSAN!")
 
     useEffect(() => {
-        if (refresh) {
-            console.log('refresh')
-            setRefresh(false)
-            getOwnedTamagosans()
-            getOwnedTraits()
-            resetSelectedAvailable()
-            resetStakedParts()
-            if(selectedID!=null){
-                getStakedIDs(selectedID)
-            }
-        }
-    }, [refresh])
+        Loading()
+    }, [])
+
+    async function Loading() {
+        setRefresh(true)
+        await getOwnedTamagosans()
+        await getOwnedTraits()
+        setRefresh(false)
+    }
+
+    async function editComplete(){
+        setTamagoLoading(true)
+        setStakedLoading(true)
+        resetSelectedAvailable()
+        await resetStakedParts()
+        await Loading()
+        await getStakedIDs(selectedID)
+        // reloadEditedTamagoImage(selectedID)
+        setTamagoLoading(false)
+    }
 
     async function getOwnedTamagosans() {
         var contract = new ethers.Contract(NFTAddress, NFTABI, provider.getSigner())
@@ -59,29 +67,33 @@ const ViewEditTamagosan = () => {
     }
 
     async function getStakedIDs(tamagoID) {
+        setStakedLoading(true)
         var contract = new ethers.Contract(NFTAddress, NFTABI, provider.getSigner())
         var result = await contract.getStakedTraits(tamagoID)
         if (result.length == 0) {
             setHasStakedParts(false)
             console.log("Nothing staked")
+            setStakedLoading(false)
             return
         }
         else {
             setHasStakedParts(true)
             setStakedIDs(result.toString().split(','))
-            getData(result.toString().split(','))
+            await getData(result.toString().split(','))
         }
+        setStakedLoading(false)
     }
 
-    function tamagosanClick(ID) {
-        resetStakedParts()
+    async function tamagosanClick(ID) {
+        
+        await resetStakedParts()
         resetSelectedAvailable()
         setSelectedID(ID)
-        getStakedIDs(ID)
-        // setEditMode(true)
+        await getStakedIDs(ID)
+
     }
 
-    function resetStakedParts() {
+    async function resetStakedParts() {
         setPart1(transparentImage);
         setPart2(transparentImage);
         setPart3(transparentImage);
@@ -91,6 +103,16 @@ const ViewEditTamagosan = () => {
         setPart7(transparentImage);
         setPart8(transparentImage);
         setStaked([])
+    }
+
+    function reloadEditedTamagoImage(ID){
+        
+        var element = document.getElementById(ID)
+        console.log(element)
+        var temp = element.src
+        element.src = transparentImage
+        setTimeout(()=>{element.src=temp},1000)
+        // element.src = temp
     }
 
     async function getData(stakedIDs) {
@@ -118,6 +140,7 @@ const ViewEditTamagosan = () => {
     }
 
     function setupStakedLayers(data) {
+        console.log('toggle')
         Object.entries(data).map((value) => {
             toggleLayer(value[0], value[1][0])
         })
@@ -131,73 +154,47 @@ const ViewEditTamagosan = () => {
     }
 
     function toggleLayer(category, image) {
-        console.log('hmm')
         if (category === 'LOWER BODY') {
-            if (part1 === image) {
-                setPart1(transparentImage)
-            }
-            else {
+            
                 setPart1(image)
-            }
+            
 
         }
         else if (category === 'EARS') {
-            if (part2 === image) {
-                setPart2(transparentImage)
-            }
-            else {
+            
                 setPart2(image)
-            }
+            
 
         }
         else if (category === 'EYES') {
-            if (part3 === image) {
-                setPart3(transparentImage)
-            }
-            else {
+            
                 setPart3(image)
-            }
+            
         }
         else if (category === 'UPPER HEAD') {
-            if (part4 === image) {
-                setPart4(transparentImage)
-            }
-            else {
+            
                 setPart4(image)
-            }
+            
         }
         else if (category === 'ARMS') {
-            if (part5 === image) {
-                setPart5(transparentImage)
-            }
-            else {
+            
                 setPart5(image)
-            }
+            
         }
         else if (category === 'NOSE') {
-            if (part7 === image) {
-                setPart7(transparentImage)
-            }
-            else {
+           
                 setPart7(image)
-            }
+            
         }
         else if (category === 'MOUTH') {
-
-            if (part6 === image) {
-                setPart6(transparentImage)
-            }
-            else {
+            
                 setPart6(image)
-            }
+            
         }
         else if (category === 'EYE ACCESSORIES') {
-            if (part8 === image) {
-                setPart8(transparentImage)
-            }
-            else {
+            
                 setPart8(image)
-            }
+            
         }
     }
 
@@ -353,7 +350,7 @@ const ViewEditTamagosan = () => {
                 if (resultResponse['status'] === 1 || resultResponse === true) {
 
                     await requestServer(tokenIDs)
-                    setRefresh(true)
+                    editComplete()
                     setMessage("Tamago Updated")
                 }
             }
@@ -392,50 +389,66 @@ const ViewEditTamagosan = () => {
         }
     }
 
-    if (!editMode) {
-        if (noNFT) {
-            return (<h1 style={{ marginTop: '20px' }}>No NFT Owned Mint a Tamagosan!</h1>)
-        }
-        else {
-            return (
-                <div className="flex">
-                    <div className='viewInnerDiv'>
-                        <div className="viewHeader">
-                            <h2 className="viewPimpHeading">The PIMP FACTORY</h2>
-                            <Button className="viewPaging">MY TAMAGOSAN!</Button>
+    if (noNFT) {
+        return (<h1 style={{ marginTop: '20px' }}>No NFT Owned Mint a Tamagosan!</h1>)
+    }
+    else {
+        return (
+            <div className="flex">
+                <div className='viewInnerDiv'>
+
+                    <div className="viewHeader">
+                        <h2 className="viewPimpHeading">The PIMP FACTORY</h2>
+                        <Button className="viewPaging">MY TAMAGOSAN!</Button>
+                        {!refresh ?
                             <div className="viewTamagoContainer">
 
                                 {ownedNFTs.map((NFT) => {
-                                    return (
-                                        <img onClick={() => tamagosanClick(NFT)} className='tamagoImage' src={tamagoURL + NFT + '.png' + '?t=' + new Date().getTime()} />
+                                    return (<>
+                                        {/* {NFT==selectedID? */}
+                                        <img id={NFT} onClick={async() => await tamagosanClick(NFT)} className='tamagoImage' src={tamagoURL + NFT + '.png?t='+Date.now()} />
+                                        {/* : */}
+                                        {/* <img onClick={async() => await tamagosanClick(NFT)} className='tamagoImage' src={tamagoURL + NFT + '.png'} /> */}
+                                        {/* } */}
+                                        </>
                                     )
                                 })}
-                            </div>
-                        </div>
-                        <div className="viewStakedSection">
-                            <h5 style={{ position: 'absolute', top: '5px', color: 'white', left: '20px' }}>STAKED PARTS</h5>
+
+                            </div> :
+                            <Spinner animation="border" className="centerSpinner" />}
+                    </div>
+
+                    <div className="viewStakedSection">
+                        <h5 style={{ position: 'absolute', top: '5px', color: 'white', left: '20px' }}>STAKED PARTS</h5>
+                        <>
                             <>
-                                <>
-                                    {selectedID != null ?
-                                        hasStakedParts ?
-                                            Object.entries(staked).map(stakedData => {
-                                                return (
-                                                    <img name={stakedData[0]} className="viewPartsHolder outline" src={stakedData[1][0]} onClick={
-                                                        (e)=>{
-                                                            partClick(stakedData[0],stakedData[1][0],e)
-                                                        }
-                                                    } />
-                                                )
-                                            })
-                                            : <h2 style={{ color: 'white', marginTop: '20px' }}>No parts Staked!</h2> :
-                                        <h2 style={{ color: 'white', marginTop: '20px' }}>Select a Tamagosan!</h2>
-                                    }
-                                </>
+                                {
+                                    !stakedLoading ?
+                                        <>
+                                            {selectedID != null ?
+                                                hasStakedParts ?
+                                                    Object.entries(staked).map(stakedData => {
+                                                        return (
+                                                            <img name={stakedData[0]} className="viewPartsHolder outline" src={stakedData[1][0]} onClick={
+                                                                (e) => {
+                                                                    partClick(stakedData[0], stakedData[1][0], e)
+                                                                }
+                                                            } />
+                                                        )
+                                                    })
+                                                    : <h2 style={{ color: 'white', marginTop: '20px' }}>No parts Staked!</h2> :
+                                                <h2 style={{ color: 'white', marginTop: '20px' }}>Select a Tamagosan!</h2>
+                                            }
+                                        </> :
+                                        <Spinner variant="light" className="centerSpinner" animation="border" />
+                                }
                             </>
-                        </div>
-                        <div className="viewPartsAndTamagoSection">
-                            <div className="viewPartsSection">
-                                <h6 style={{ position: 'absolute', left: '20px', color: 'white', top: '10px' }}>AVAILABLE PARTS</h6>
+                        </>
+                    </div>
+                    <div className="viewPartsAndTamagoSection">
+                        <div className="viewPartsSection">
+                            <h6 style={{ position: 'absolute', left: '20px', color: 'white', top: '10px' }}>AVAILABLE PARTS</h6>
+                            {!refresh ? <>
                                 {
                                     Object.entries(availableTraits).map((valueArray) => {
                                         return (<div className="viewAvailablePartsRow">{valueArray[1].map((value) => {
@@ -449,29 +462,34 @@ const ViewEditTamagosan = () => {
                                             )
                                         })}</div>)
                                     })
-                                }
+                                }</>
+                                :
+                                <Spinner variant="light" animation="border" className="centerSpinner" />
+                            }
+                        </div>
+                        <div className="viewTamagoSection">
+                            <div className="viewFinalTamagoContainer">
+                                {!tamagoLoading?<>
+                                <img className="viewEggHolder" src={selectedID != null ? spacesURL + 'tamagoRawBody/' + selectedID + '.png' : transparentImage} />
+                                <img className='viewSelectedPartsHolder' src={part1} />
+                                <img className='viewSelectedPartsHolder' src={part2} />
+                                <img className='viewSelectedPartsHolder' src={part3} />
+                                <img className='viewSelectedPartsHolder' src={part4} />
+                                <img className='viewSelectedPartsHolder' src={part5} />
+                                <img className='viewSelectedPartsHolder' src={part6} />
+                                <img className='viewSelectedPartsHolder' src={part7} />
+                                <img className='viewSelectedPartsHolder' src={part8} />
+                                </>:<Spinner animation="border" variant="light" className="centerSpinner"/>}
                             </div>
-                            <div className="viewTamagoSection">
-                                <div className="viewFinalTamagoContainer">
-                                    <img className="viewEggHolder" src={selectedID != null ? spacesURL + 'tamagoRawBody/' + selectedID + '.png' : transparentImage} />
-                                    <img className='viewSelectedPartsHolder' src={part1} />
-                                    <img className='viewSelectedPartsHolder' src={part2} />
-                                    <img className='viewSelectedPartsHolder' src={part3} />
-                                    <img className='viewSelectedPartsHolder' src={part4} />
-                                    <img className='viewSelectedPartsHolder' src={part5} />
-                                    <img className='viewSelectedPartsHolder' src={part6} />
-                                    <img className='viewSelectedPartsHolder' src={part7} />
-                                    <img className='viewSelectedPartsHolder' src={part8} />
-                                </div>
-                                <Button style={{ padding: '15px' }} className="pinkBtn" onClick={editTamagosan}>{message}</Button>
-                            </div>
+                            <Button style={{ padding: '15px' }} className="pinkBtn" onClick={(e)=>editTamagosan(e)}>{message}</Button>
                         </div>
                     </div>
-
                 </div>
-            );
-        }
+
+            </div>
+        );
     }
+
 }
 
 export default ViewEditTamagosan;
