@@ -142,7 +142,7 @@ const ViewEditTamagosan = () => {
     function setupStakedLayers(data) {
         console.log('toggle')
         Object.entries(data).map((value) => {
-            toggleLayer(value[0], value[1][0])
+            toggleLayer(value[0], editImageLink(value[1][0]))
         })
     }
 
@@ -372,6 +372,13 @@ const ViewEditTamagosan = () => {
             return true;
         }
     }
+
+    function editImageLink(link){
+        var splitLink = link.split('/')
+        var length = splitLink.length
+        return spacesURL + '/' + splitLink[length-2] + '/' + splitLink[length-1]
+    }
+
     async function approve(e) {
         try {
             var contract = new ethers.Contract(TraitAddress, TraitABI, provider.getSigner())
@@ -429,9 +436,9 @@ const ViewEditTamagosan = () => {
                                                 hasStakedParts ?
                                                     Object.entries(staked).map(stakedData => {
                                                         return (
-                                                            <img name={stakedData[0]} className="viewPartsHolder outline" src={stakedData[1][0]} onClick={
+                                                            <img name={stakedData[0]} className="viewPartsHolder outline" src={editImageLink(stakedData[1][0])} onClick={
                                                                 (e) => {
-                                                                    partClick(stakedData[0], stakedData[1][0], e)
+                                                                    partClick(stakedData[0], editImageLink(stakedData[1][0]), e)
                                                                 }
                                                             } />
                                                         )
@@ -455,7 +462,7 @@ const ViewEditTamagosan = () => {
                                             return (
                                                 <div style={{ display: 'inline-block' }}>
                                                     <>
-                                                        <img name={valueArray[0]} className="partsHolder" src={value[0]} onClick={(e) => { partClick(valueArray[0], value[0], e) }} />
+                                                        <img name={valueArray[0]} className="partsHolder" src={editImageLink(value[0])} onClick={(e) => { partClick(valueArray[0], editImageLink(value[0]), e) }} />
                                                         <h6 className={value[1]}>{value[1]}</h6>
                                                     </>
                                                 </div>
