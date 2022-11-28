@@ -5,6 +5,8 @@ import { ethers } from "ethers";
 import { useEffect } from "react";
 import axios from "axios";
 import { LazyLoadImage } from 'react-lazy-load-image-component'
+import {RiArrowRightSLine,RiArrowLeftSLine} from 'react-icons/ri'
+import { IconContext } from "react-icons";
 
 const ViewEditTamagosan = () => {
 
@@ -126,6 +128,17 @@ const ViewEditTamagosan = () => {
             responseData.push(response.data)
         }
         seggregateData(responseData)
+    }
+
+    function scrollTamago(bool){
+        var e = document.getElementById('tamagoContainer')
+        if(bool){
+            e.scrollLeft += 100;
+        }
+        else{
+            e.scrollLeft -= 100;
+        }
+        console.log(e)
     }
 
     function seggregateData(data) {
@@ -409,8 +422,13 @@ const ViewEditTamagosan = () => {
                         <h2 className="viewPimpHeading">The PIMP FACTORY</h2>
                         <Button className="viewPaging">MY TAMAGOSAN!</Button>
                         {!refresh ?
-                            <div className="viewTamagoContainer">
-
+                        <div style={{position:'relative',width:'fit-content'}}>
+                            <IconContext.Provider value={{size:'30' ,color:'black'}}>
+                            <RiArrowRightSLine style={{position:'absolute',right:'-25px',marginTop:'auto',marginBottom:'auto',top:'0',bottom:'0'}} onClick={()=>scrollTamago(true)}/>
+                            <RiArrowLeftSLine style={{position:'absolute',left:'-15px',marginTop:'auto',marginBottom:'auto',top:'0',bottom:'0'}} width={50} onClick={()=>scrollTamago(false)}/>
+                            </IconContext.Provider>
+                            <div id='tamagoContainer' style={{marginLeft:'5px'}} className="viewTamagoContainer">
+                            
                                 {ownedNFTs.map((NFT) => {
                                     return (<>
                                         {/* {NFT==selectedID? */}
@@ -425,6 +443,7 @@ const ViewEditTamagosan = () => {
                                     )
                                 })}
 
+                            </div>
                             </div> :
                             <Spinner animation="border" className="centerSpinner" />}
                     </div>

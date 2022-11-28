@@ -189,6 +189,7 @@ background-color: transparent;
 }
 
 .viewTamagoContainer{
+  position: relative;
   width: 500px;
   overflow-x: scroll;
   white-space: nowrap;
