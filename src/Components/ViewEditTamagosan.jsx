@@ -4,6 +4,7 @@ import { ConnectionContext, ContractContext, ServerContext } from "../App";
 import { ethers } from "ethers";
 import { useEffect } from "react";
 import axios from "axios";
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 const ViewEditTamagosan = () => {
 
@@ -16,7 +17,7 @@ const ViewEditTamagosan = () => {
     const [noNFT, setNoNFT] = useState()
     const [staked, setStaked] = useState([])
     const [stakedLoading, setStakedLoading] = useState(false)
-    const [tamagoLoading,setTamagoLoading] = useState(false)
+    const [tamagoLoading, setTamagoLoading] = useState(false)
     const [stakedIDs, setStakedIDs] = useState([])
     const [availableTraits, setAvailableTraits] = useState([])
     const [hasStakedParts, setHasStakedParts] = useState(true)
@@ -43,7 +44,7 @@ const ViewEditTamagosan = () => {
         setRefresh(false)
     }
 
-    async function editComplete(){
+    async function editComplete() {
         setTamagoLoading(true)
         setStakedLoading(true)
         resetSelectedAvailable()
@@ -85,7 +86,7 @@ const ViewEditTamagosan = () => {
     }
 
     async function tamagosanClick(ID) {
-        
+
         await resetStakedParts()
         resetSelectedAvailable()
         setSelectedID(ID)
@@ -105,13 +106,13 @@ const ViewEditTamagosan = () => {
         setStaked([])
     }
 
-    function reloadEditedTamagoImage(ID){
-        
+    function reloadEditedTamagoImage(ID) {
+
         var element = document.getElementById(ID)
         console.log(element)
         var temp = element.src
         element.src = transparentImage
-        setTimeout(()=>{element.src=temp},1000)
+        setTimeout(() => { element.src = temp }, 1000)
         // element.src = temp
     }
 
@@ -155,46 +156,46 @@ const ViewEditTamagosan = () => {
 
     function toggleLayer(category, image) {
         if (category === 'LOWER BODY') {
-            
-                setPart1(image)
-            
+
+            setPart1(image)
+
 
         }
         else if (category === 'EARS') {
-            
-                setPart2(image)
-            
+
+            setPart2(image)
+
 
         }
         else if (category === 'EYES') {
-            
-                setPart3(image)
-            
+
+            setPart3(image)
+
         }
         else if (category === 'UPPER HEAD') {
-            
-                setPart4(image)
-            
+
+            setPart4(image)
+
         }
         else if (category === 'ARMS') {
-            
-                setPart5(image)
-            
+
+            setPart5(image)
+
         }
         else if (category === 'NOSE') {
-           
-                setPart7(image)
-            
+
+            setPart7(image)
+
         }
         else if (category === 'MOUTH') {
-            
-                setPart6(image)
-            
+
+            setPart6(image)
+
         }
         else if (category === 'EYE ACCESSORIES') {
-            
-                setPart8(image)
-            
+
+            setPart8(image)
+
         }
     }
 
@@ -373,10 +374,10 @@ const ViewEditTamagosan = () => {
         }
     }
 
-    function editImageLink(link){
+    function editImageLink(link) {
         var splitLink = link.split('/')
         var length = splitLink.length
-        return spacesURL + '/' + splitLink[length-2] + '/' + splitLink[length-1]
+        return spacesURL + '/' + splitLink[length - 2] + '/' + splitLink[length - 1]
     }
 
     async function approve(e) {
@@ -413,11 +414,14 @@ const ViewEditTamagosan = () => {
                                 {ownedNFTs.map((NFT) => {
                                     return (<>
                                         {/* {NFT==selectedID? */}
-                                        <img id={NFT} onClick={async() => await tamagosanClick(NFT)} className='tamagoImage' src={tamagoURL + NFT + '.png?t='+Date.now()} />
+                                        <div style={{ display: 'inline-flex' }}>
+
+                                            <LazyLoadImage id={NFT} onClick={async () => await tamagosanClick(NFT)} className='tamagoImage' src={tamagoURL + NFT + '.png?t=' + Date.now()} />
+                                        </div>
                                         {/* : */}
                                         {/* <img onClick={async() => await tamagosanClick(NFT)} className='tamagoImage' src={tamagoURL + NFT + '.png'} /> */}
                                         {/* } */}
-                                        </>
+                                    </>
                                     )
                                 })}
 
@@ -458,16 +462,25 @@ const ViewEditTamagosan = () => {
                             {!refresh ? <>
                                 {
                                     Object.entries(availableTraits).map((valueArray) => {
-                                        return (<div className="viewAvailablePartsRow">{valueArray[1].map((value) => {
-                                            return (
-                                                <div style={{ display: 'inline-block' }}>
-                                                    <>
-                                                        <img name={valueArray[0]} className="partsHolder" src={editImageLink(value[0])} onClick={(e) => { partClick(valueArray[0], editImageLink(value[0]), e) }} />
-                                                        <h6 className={value[1]}>{value[1]}</h6>
-                                                    </>
-                                                </div>
-                                            )
-                                        })}</div>)
+                                        return (<>
+
+                                            <h6 style={{ color: "white" }}>{valueArray[0]}</h6>
+                                            <div className="viewAvailablePartsRow">
+                                                {
+                                                    valueArray[1].map((value) => {
+                                                        return (
+                                                            <div style={{ display: 'inline-block' }}>
+                                                                <>
+                                                                    <LazyLoadImage name={valueArray[0]} className="partsHolder" src={editImageLink(value[0])} onClick={(e) => { partClick(valueArray[0], editImageLink(value[0]), e) }} />
+                                                                    <h6 className={value[1]}>{value[1]}</h6>
+                                                                </>
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+
+                                            </div>
+                                        </>)
                                     })
                                 }</>
                                 :
@@ -476,19 +489,19 @@ const ViewEditTamagosan = () => {
                         </div>
                         <div className="viewTamagoSection">
                             <div className="viewFinalTamagoContainer">
-                                {!tamagoLoading?<>
-                                <img className="viewEggHolder" src={selectedID != null ? spacesURL + 'tamagoRawBody/' + selectedID + '.png' : transparentImage} />
-                                <img className='viewSelectedPartsHolder' src={part1} />
-                                <img className='viewSelectedPartsHolder' src={part2} />
-                                <img className='viewSelectedPartsHolder' src={part3} />
-                                <img className='viewSelectedPartsHolder' src={part4} />
-                                <img className='viewSelectedPartsHolder' src={part5} />
-                                <img className='viewSelectedPartsHolder' src={part6} />
-                                <img className='viewSelectedPartsHolder' src={part7} />
-                                <img className='viewSelectedPartsHolder' src={part8} />
-                                </>:<Spinner animation="border" variant="light" className="centerSpinner"/>}
+                                {!tamagoLoading ? <>
+                                    <img className="viewEggHolder" src={selectedID != null ? spacesURL + 'tamagoRawBody/' + selectedID + '.png' : transparentImage} />
+                                    <img className='viewSelectedPartsHolder' src={part1} />
+                                    <img className='viewSelectedPartsHolder' src={part2} />
+                                    <img className='viewSelectedPartsHolder' src={part3} />
+                                    <img className='viewSelectedPartsHolder' src={part4} />
+                                    <img className='viewSelectedPartsHolder' src={part5} />
+                                    <img className='viewSelectedPartsHolder' src={part6} />
+                                    <img className='viewSelectedPartsHolder' src={part7} />
+                                    <img className='viewSelectedPartsHolder' src={part8} />
+                                </> : <Spinner animation="border" variant="light" className="centerSpinner" />}
                             </div>
-                            <Button style={{ padding: '15px' }} className="pinkBtn" onClick={(e)=>editTamagosan(e)}>{message}</Button>
+                            <Button style={{ padding: '15px' }} className="pinkBtn" onClick={(e) => editTamagosan(e)}>{message}</Button>
                         </div>
                     </div>
                 </div>
