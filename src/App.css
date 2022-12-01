@@ -193,6 +193,7 @@ background-color: transparent;
   width: 500px;
   overflow-x: scroll;
   white-space: nowrap;
+  scroll-behavior: smooth;
 }
 
 .viewPimpHeading{
@@ -276,14 +277,20 @@ background-color: transparent;
 }
 
 .viewPartsSection{
-  padding-top: 30px;
   position: relative;
   border: 3px solid var(--yellow);
   height: 100%;
   width: 55%;
   border-radius: 15px;
+}
+
+.viewPartsScroll{
+  scroll-behavior: smooth;
+  overflow-x: hidden;
   overflow-y: scroll;
   white-space: nowrap;
+  width: 100%;
+  height: 80%;
 }
 
 .viewTamagoSection{
@@ -300,8 +307,19 @@ background-color: transparent;
 .viewAvailablePartsRow{
   display: inline-flex;
   width: 100%;
+}
+
+.partsArrow{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.viewAvailablePartsScroll{
   overflow-x: scroll;
   white-space: nowrap;
+  width: 90%;
+  scroll-behavior: smooth;
 }
 
 .randomEggHolder{

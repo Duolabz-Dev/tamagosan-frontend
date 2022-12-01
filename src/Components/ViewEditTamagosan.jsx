@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 import { useEffect } from "react";
 import axios from "axios";
 import { LazyLoadImage } from 'react-lazy-load-image-component'
-import {RiArrowRightSLine,RiArrowLeftSLine} from 'react-icons/ri'
+import {RiArrowRightSLine,RiArrowLeftSLine,RiArrowUpSLine,RiArrowDownSLine} from 'react-icons/ri'
 import { IconContext } from "react-icons";
 
 const ViewEditTamagosan = () => {
@@ -132,6 +132,18 @@ const ViewEditTamagosan = () => {
 
     function scrollTamago(bool){
         var e = document.getElementById('tamagoContainer')
+        if(bool){
+            e.scrollLeft += 100;
+        }
+        else{
+            e.scrollLeft -= 100;
+        }
+        console.log(e)
+    }
+
+    
+    function scrollTraitRow(id,bool){
+        var e = document.getElementById(id)
         if(bool){
             e.scrollLeft += 100;
         }
@@ -314,6 +326,27 @@ const ViewEditTamagosan = () => {
         }
     }
 
+    function scrollAvailableDiv(bool){
+        var e = document.getElementById('allTraitDiv')
+        if(bool){
+            e.scrollTop +=100
+        }
+        else{
+            e.scrollTop -=100
+        }
+    }
+
+    function scrollCategoryDiv(bool){
+        var e = document.getElementById('categoryTraitDiv')
+        if(bool){
+            e.scrollRight +=100
+        }
+        else{
+            e.scrollRight -=100
+        }
+    }
+
+
     async function editTamagosan(e) {
         console.log(stakedIDs)
 
@@ -477,18 +510,29 @@ const ViewEditTamagosan = () => {
                     </div>
                     <div className="viewPartsAndTamagoSection">
                         <div className="viewPartsSection">
-                            <h6 style={{ position: 'absolute', left: '20px', color: 'white', top: '10px' }}>AVAILABLE PARTS</h6>
+                            <h6 style={{color:'white', marginTop:'8px',marginLeft:'8px',textAlign:'left'}}>AVAILABLE PARTS</h6>
+                            <IconContext.Provider value={{color:'white',size:'20px'}}>
+                                <RiArrowUpSLine onClick={()=>scrollAvailableDiv(true)}/>
+                            </IconContext.Provider>
+                            <div id='allTraitDiv' className="viewPartsScroll">
                             {!refresh ? <>
+                               
                                 {
                                     Object.entries(availableTraits).map((valueArray) => {
                                         return (<>
 
                                             <h6 style={{ color: "white" }}>{valueArray[0]}</h6>
                                             <div className="viewAvailablePartsRow">
+                                                <div className="partsArrow" onClick={()=>scrollTraitRow(valueArray[0]+'Div',false)}>
+                                                <IconContext.Provider  value={{size:'20px',color:'white'}}>
+                                                    <RiArrowLeftSLine/>
+                                                </IconContext.Provider>
+                                                </div>
+                                                <div id={valueArray[0]+'Div'} className="viewAvailablePartsScroll">
                                                 {
                                                     valueArray[1].map((value) => {
                                                         return (
-                                                            <div style={{ display: 'inline-block' }}>
+                                                            <div style={{ display: 'inline-block' ,margin:'4px'}}>
                                                                 <>
                                                                     <LazyLoadImage name={valueArray[0]} className="partsHolder" src={editImageLink(value[0])} onClick={(e) => { partClick(valueArray[0], editImageLink(value[0]), e) }} />
                                                                     <h6 className={value[1]}>{value[1]}</h6>
@@ -497,14 +541,24 @@ const ViewEditTamagosan = () => {
                                                         )
                                                     })
                                                 }
-
+                                                </div>
+                                                <div className="partsArrow" onClick={()=>scrollTraitRow(valueArray[0]+'Div',true)}>
+                                                <IconContext.Provider value={{size:'20px',color:'white'}}>
+                                                    <RiArrowRightSLine/>
+                                                </IconContext.Provider>
+                                                </div>
                                             </div>
                                         </>)
                                     })
-                                }</>
+                                }
+                                </>
                                 :
                                 <Spinner variant="light" animation="border" className="centerSpinner" />
                             }
+                            </div>
+                            <IconContext.Provider value={{color:'white',size:'20px'}}>
+                                <RiArrowDownSLine onClick={()=>scrollAvailableDiv(false)}/>
+                            </IconContext.Provider>
                         </div>
                         <div className="viewTamagoSection">
                             <div className="viewFinalTamagoContainer">
