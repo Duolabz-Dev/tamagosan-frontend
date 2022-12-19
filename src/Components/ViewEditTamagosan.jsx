@@ -532,11 +532,11 @@ const ViewEditTamagosan = () => {
                                                 {
                                                     valueArray[1].map((value) => {
                                                         return (
-                                                            <div style={{ display: 'inline-block' ,margin:'4px'}}>
-                                                                <>
+                                                            <div style={{position:'relative', display: 'inline-block' ,margin:'4px'}}>
                                                                     <LazyLoadImage name={valueArray[0]} className="partsHolder" src={editImageLink(value[0])} onClick={(e) => { partClick(valueArray[0], editImageLink(value[0]), e) }} />
                                                                     <h6 className={value[1]}>{value[1]}</h6>
-                                                                </>
+                                                                    {value[2]>1?<h6 className="traitAmountTxt">{value[2]}</h6>:<></>}
+                                                                    
                                                             </div>
                                                         )
                                                     })

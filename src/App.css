@@ -329,3 +329,14 @@ background-color: transparent;
   border-radius: 10px;
   margin: 20px;
 }
+
+.traitAmountTxt{
+  position: absolute;
+  top: 0;
+  right: 0px;
+  padding: 2px;
+  color:white;
+  background-color: #f2982a;
+  border-radius: 50%;
+  width: 21px;
+}
