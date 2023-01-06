@@ -217,7 +217,7 @@ const ViewEditTamagosan = () => {
             setPart6(image)
 
         }
-        else if (category === 'EYE ACCESSORIES') {
+        else if (category === 'ACCESSORIES') {
 
             setPart8(image)
 
@@ -226,7 +226,7 @@ const ViewEditTamagosan = () => {
 
     function resetSelectedAvailable(category = null) {
         if (category == null) {
-            category = ['LOWER BODY', 'EARS', 'EYES', 'UPPER HEAD', 'ARMS', 'NOSE', 'MOUTH', 'EYE ACCESSORIES']
+            category = ['LOWER BODY', 'EARS', 'EYES', 'UPPER HEAD', 'ARMS', 'NOSE', 'MOUTH', 'ACCESSORIES']
             category.map(item => {
                 var list = document.getElementsByName(item)
                 list.forEach(element => {
@@ -315,7 +315,7 @@ const ViewEditTamagosan = () => {
                 e.classList.toggle('outline')
             }
         }
-        else if (category === 'EYE ACCESSORIES') {
+        else if (category === 'ACCESSORIES') {
             if (part8 === image) {
                 setPart8(transparentImage)
             }
@@ -423,7 +423,7 @@ const ViewEditTamagosan = () => {
     function editImageLink(link) {
         var splitLink = link.split('/')
         var length = splitLink.length
-        return spacesURL + '/' + splitLink[length - 2] + '/' + splitLink[length - 1]
+        return spacesURL + splitLink[length - 2] + '/' + splitLink[length - 1]
     }
 
     async function approve(e) {
@@ -520,7 +520,7 @@ const ViewEditTamagosan = () => {
                                 {
                                     Object.entries(availableTraits).map((valueArray) => {
                                         return (<>
-
+                                            {/* [trait,[image,category]] */}
                                             <h6 style={{ color: "white" }}>{valueArray[0]}</h6>
                                             <div className="viewAvailablePartsRow">
                                                 <div className="partsArrow" onClick={()=>scrollTraitRow(valueArray[0]+'Div',false)}>

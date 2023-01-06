@@ -11,9 +11,9 @@
 }
 
 body{
-  /* background-image: url('./Assets/Images/back\ layer\ -min.png'); */
+
   background-color: var(--light_yellow) !important;
-  /* background-position: center; */
+
 }
 
 .App {
@@ -69,8 +69,6 @@ background-color: transparent;
 .greenBorder{
   border: 3px solid rgb(2, 193, 2) !important;
 }
-
-/* navbar css */
 
 /* body */
 .bodyDiv{
@@ -138,8 +136,6 @@ background-color: transparent;
     }
 }
 
-
-
 .partsHolder{
   height:90px;
   width: 90px;
@@ -166,8 +162,6 @@ background-color: transparent;
   border-color: black;
   border-style: solid;
 }
-
-
 
 .selected{
   border: 1px black solid;
@@ -207,12 +201,20 @@ background-color: transparent;
   width: 100px;
   height: 100px;
   border: 2px black solid;
-  border-radius: 20px;
+  border-radius: 15px;
   margin: 10px;
   background-image: url('./Assets/Images/egg.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.NoCategory{
+  color: white;
+  border-radius: 20px;
+  background-color: transparent;
+  margin: 8px;
+  height: 20px;
 }
 
 .CLASSIC{
