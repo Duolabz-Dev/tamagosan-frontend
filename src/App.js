@@ -18,8 +18,8 @@ function App() {
   const [provider, setProvider] = useState(null)
   const [address, setAddress] = useState(null)
   const [isChainCorrect, setIsChainCorrect] = useState(null)
-  // const serverURL = 'https://tamagosan-server-cmh4q.ondigitalocean.app/'
-  const serverURL = 'http://127.0.0.1:8000/'
+  const serverURL = 'https://tamagosan-server-cmh4q.ondigitalocean.app/'
+  // const serverURL = 'http://127.0.0.1:8000/'
   const spacesURl = 'https://tamagosan.fra1.cdn.digitaloceanspaces.com/'
 
   return (
