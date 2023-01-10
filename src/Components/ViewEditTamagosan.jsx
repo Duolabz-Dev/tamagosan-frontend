@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 import { useEffect } from "react";
 import axios from "axios";
 import { LazyLoadImage } from 'react-lazy-load-image-component'
-import {RiArrowRightSLine,RiArrowLeftSLine,RiArrowUpSLine,RiArrowDownSLine} from 'react-icons/ri'
+import { RiArrowRightSLine, RiArrowLeftSLine, RiArrowUpSLine, RiArrowDownSLine } from 'react-icons/ri'
 import { IconContext } from "react-icons";
 
 const ViewEditTamagosan = () => {
@@ -17,7 +17,7 @@ const ViewEditTamagosan = () => {
     const tamagoURL = 'https://tamagosan.fra1.cdn.digitaloceanspaces.com/tamagosanImage/'
     const [ownedNFTs, setOwnedNFTs] = useState([])
     const [noNFT, setNoNFT] = useState()
-    const [staked, setStaked] = useState([])
+    const [stakedMetadata, setStakedMetadata] = useState([])
     const [stakedLoading, setStakedLoading] = useState(false)
     const [tamagoLoading, setTamagoLoading] = useState(false)
     const [stakedIDs, setStakedIDs] = useState([])
@@ -75,6 +75,7 @@ const ViewEditTamagosan = () => {
         var result = await contract.getStakedTraits(tamagoID)
         if (result.length == 0) {
             setHasStakedParts(false)
+            setStakedIDs([])
             console.log("Nothing staked")
             setStakedLoading(false)
             return
@@ -89,7 +90,7 @@ const ViewEditTamagosan = () => {
 
     async function tamagosanClick(ID) {
 
-        await resetStakedParts()
+        resetStakedParts()
         resetSelectedAvailable()
         setSelectedID(ID)
         await getStakedIDs(ID)
@@ -105,7 +106,6 @@ const ViewEditTamagosan = () => {
         setPart6(transparentImage);
         setPart7(transparentImage);
         setPart8(transparentImage);
-        setStaked([])
     }
 
     function reloadEditedTamagoImage(ID) {
@@ -130,24 +130,24 @@ const ViewEditTamagosan = () => {
         seggregateData(responseData)
     }
 
-    function scrollTamago(bool){
+    function scrollTamago(bool) {
         var e = document.getElementById('tamagoContainer')
-        if(bool){
+        if (bool) {
             e.scrollLeft += 100;
         }
-        else{
+        else {
             e.scrollLeft -= 100;
         }
         console.log(e)
     }
 
-    
-    function scrollTraitRow(id,bool){
+
+    function scrollTraitRow(id, bool) {
         var e = document.getElementById(id)
-        if(bool){
+        if (bool) {
             e.scrollLeft += 100;
         }
-        else{
+        else {
             e.scrollLeft -= 100;
         }
         console.log(e)
@@ -157,12 +157,12 @@ const ViewEditTamagosan = () => {
         var traits = {}
         data.forEach((value) => {
             if (!traits[value['data']['Trait']]) {
-                traits[value['data']['Trait']] = [value['image'], value['data']['Level']]
+                traits[value['data']['Trait']] = [value['image'], value['data']['Category']]
             }
         }
         )
         setupStakedLayers(traits)
-        setStaked(traits)
+        setStakedMetadata(traits)
     }
 
     function setupStakedLayers(data) {
@@ -181,21 +181,13 @@ const ViewEditTamagosan = () => {
 
     function toggleLayer(category, image) {
         if (category === 'LOWER BODY') {
-
             setPart1(image)
-
-
         }
         else if (category === 'EARS') {
-
             setPart2(image)
-
-
         }
         else if (category === 'EYES') {
-
             setPart3(image)
-
         }
         else if (category === 'UPPER HEAD') {
 
@@ -326,77 +318,73 @@ const ViewEditTamagosan = () => {
         }
     }
 
-    function scrollAvailableDiv(bool){
+    function scrollAvailableDiv(bool) {
         var e = document.getElementById('allTraitDiv')
-        if(bool){
-            e.scrollTop +=100
+        if (bool) {
+            e.scrollTop += 100
         }
-        else{
-            e.scrollTop -=100
+        else {
+            e.scrollTop -= 100
         }
     }
 
-    function scrollCategoryDiv(bool){
+    function scrollCategoryDiv(bool) {
         var e = document.getElementById('categoryTraitDiv')
-        if(bool){
-            e.scrollRight +=100
+        if (bool) {
+            e.scrollRight += 100
         }
-        else{
-            e.scrollRight -=100
+        else {
+            e.scrollRight -= 100
         }
     }
 
 
     async function editTamagosan(e) {
-        console.log(stakedIDs)
-
-        var selectedParts = document.getElementsByClassName('outline')
+        var selectedPartsElements = document.getElementsByClassName('outline')
         await approve(e)
         e.target.innerHTML = "Editing..."
-        var tokenIDs = []
+        var selectedTokenIDs = []
         var amounts = []
-        for (let i = 0; i < selectedParts.length; i++) {
-            let splitURL = selectedParts[i].src.split('/')
-            tokenIDs.push(parseInt(splitURL.pop()))
+        for (let i = 0; i < selectedPartsElements.length; i++) {
+            let splitURL = selectedPartsElements[i].src.split('/')
+            selectedTokenIDs.push(parseInt(splitURL.pop()))
         }
         //not of intersection of arrays
-        var unstakeIDs = stakedIDs.filter(value => !tokenIDs.includes(parseInt(value)))
-        for (let i = 0; i < unstakeIDs.length; i++) {
+        var idsToUnstake = stakedIDs.filter(value => !selectedTokenIDs.includes(parseInt(value)))
+        for (let i = 0; i < idsToUnstake.length; i++) {
             amounts.push(1)
         }
         var amountsStake = []
-        var stakeIDs = tokenIDs.filter(value => !stakedIDs.includes(value.toString()))
-        for (let i = 0; i < stakeIDs.length; i++) {
+        var idsToStake = selectedTokenIDs.filter(value => !stakedIDs.includes(value.toString()))
+        for (let i = 0; i < idsToStake.length; i++) {
             amountsStake.push(1)
         }
-        var tokenIDsUnStake = stakedIDs.filter(value => !unstakeIDs.includes(value))
+        var tokenIDsForMappingUnstake = stakedIDs.filter(value => !idsToUnstake.includes(value))
         try {
             var contract = new ethers.Contract(NFTAddress, NFTABI, provider.getSigner())
-            console.log(stakeIDs)
-            console.log(amountsStake)
-            console.log(unstakeIDs)
-            console.log(amounts)
 
+            console.log('stake', idsToStake)
+            console.log('unstake', idsToUnstake)
+            console.log('tokenIds', selectedTokenIDs)
 
-            if (unstakeIDs.length > 0 && unstakeIDs[0] != '') {
-                var tx = await contract.unstakeParts(selectedID, tokenIDsUnStake, unstakeIDs, amounts)
+            if (idsToUnstake.length > 0 && idsToUnstake[0] != '') {
+                var tx = await contract.unstakeParts(selectedID, tokenIDsForMappingUnstake, idsToUnstake, amounts)
                 var result = await tx.wait()
             }
             else {
                 var result = true
             }
             if (result['status'] === 1 || result === true) {
-                if (stakeIDs.length > 0) {
+                if (idsToStake.length > 0) {
                     console.log("wow")
-                    var tx = await contract.stakeParts(selectedID, tokenIDs, stakeIDs, amountsStake)
+                    var tx = await contract.stakeParts(selectedID, selectedTokenIDs, idsToStake, amountsStake)
                     var resultResponse = await tx.wait()
                 }
                 else {
                     var resultResponse = true
                 }
                 if (resultResponse['status'] === 1 || resultResponse === true) {
-
-                    await requestServer(tokenIDs)
+                    await requestServer(selectedTokenIDs)
                     editComplete()
                     setMessage("Tamago Updated")
                 }
@@ -455,28 +443,28 @@ const ViewEditTamagosan = () => {
                         <h2 className="viewPimpHeading">The PIMP FACTORY</h2>
                         <Button className="viewPaging">MY TAMAGOSAN!</Button>
                         {!refresh ?
-                        <div style={{position:'relative',width:'fit-content'}}>
-                            <IconContext.Provider value={{size:'30' ,color:'black'}}>
-                            <RiArrowRightSLine style={{position:'absolute',right:'-25px',marginTop:'auto',marginBottom:'auto',top:'0',bottom:'0'}} onClick={()=>scrollTamago(true)}/>
-                            <RiArrowLeftSLine style={{position:'absolute',left:'-15px',marginTop:'auto',marginBottom:'auto',top:'0',bottom:'0'}} width={50} onClick={()=>scrollTamago(false)}/>
-                            </IconContext.Provider>
-                            <div id='tamagoContainer' style={{marginLeft:'5px'}} className="viewTamagoContainer">
-                            
-                                {ownedNFTs.map((NFT) => {
-                                    return (<>
-                                        {/* {NFT==selectedID? */}
-                                        <div style={{ display: 'inline-flex' }}>
+                            <div style={{ position: 'relative', width: 'fit-content' }}>
+                                <IconContext.Provider value={{ size: '30', color: 'black' }}>
+                                    <RiArrowRightSLine style={{ position: 'absolute', right: '-25px', marginTop: 'auto', marginBottom: 'auto', top: '0', bottom: '0' }} onClick={() => scrollTamago(true)} />
+                                    <RiArrowLeftSLine style={{ position: 'absolute', left: '-15px', marginTop: 'auto', marginBottom: 'auto', top: '0', bottom: '0' }} width={50} onClick={() => scrollTamago(false)} />
+                                </IconContext.Provider>
+                                <div id='tamagoContainer' style={{ marginLeft: '5px' }} className="viewTamagoContainer">
 
-                                            <LazyLoadImage id={NFT} onClick={async () => await tamagosanClick(NFT)} className='tamagoImage' src={tamagoURL + NFT + '.png?t=' + Date.now()} />
-                                        </div>
-                                        {/* : */}
-                                        {/* <img onClick={async() => await tamagosanClick(NFT)} className='tamagoImage' src={tamagoURL + NFT + '.png'} /> */}
-                                        {/* } */}
-                                    </>
-                                    )
-                                })}
+                                    {ownedNFTs.map((NFT) => {
+                                        return (<>
+                                            {/* {NFT==selectedID? */}
+                                            <div style={{ display: 'inline-flex' }}>
 
-                            </div>
+                                                <LazyLoadImage id={NFT} onClick={async () => await tamagosanClick(NFT)} className='tamagoImage' src={tamagoURL + NFT + '.png?t=' + Date.now()} />
+                                            </div>
+                                            {/* : */}
+                                            {/* <img onClick={async() => await tamagosanClick(NFT)} className='tamagoImage' src={tamagoURL + NFT + '.png'} /> */}
+                                            {/* } */}
+                                        </>
+                                        )
+                                    })}
+
+                                </div>
                             </div> :
                             <Spinner animation="border" className="centerSpinner" />}
                     </div>
@@ -490,7 +478,7 @@ const ViewEditTamagosan = () => {
                                         <>
                                             {selectedID != null ?
                                                 hasStakedParts ?
-                                                    Object.entries(staked).map(stakedData => {
+                                                    Object.entries(stakedMetadata).map(stakedData => {
                                                         return (
                                                             <img name={stakedData[0]} className="viewPartsHolder outline" src={editImageLink(stakedData[1][0])} onClick={
                                                                 (e) => {
@@ -510,54 +498,54 @@ const ViewEditTamagosan = () => {
                     </div>
                     <div className="viewPartsAndTamagoSection">
                         <div className="viewPartsSection">
-                            <h6 style={{color:'white', marginTop:'8px',marginLeft:'8px',textAlign:'left'}}>AVAILABLE PARTS</h6>
-                            <IconContext.Provider value={{color:'white',size:'20px'}}>
-                                <RiArrowUpSLine onClick={()=>scrollAvailableDiv(true)}/>
+                            <h6 style={{ color: 'white', marginTop: '8px', marginLeft: '8px', textAlign: 'left' }}>AVAILABLE PARTS</h6>
+                            <IconContext.Provider value={{ color: 'white', size: '20px' }}>
+                                <RiArrowUpSLine onClick={() => scrollAvailableDiv(true)} />
                             </IconContext.Provider>
                             <div id='allTraitDiv' className="viewPartsScroll">
-                            {!refresh ? <>
-                               
-                                {
-                                    Object.entries(availableTraits).map((valueArray) => {
-                                        return (<>
-                                            {/* [trait,[image,category]] */}
-                                            <h6 style={{ color: "white" }}>{valueArray[0]}</h6>
-                                            <div className="viewAvailablePartsRow">
-                                                <div className="partsArrow" onClick={()=>scrollTraitRow(valueArray[0]+'Div',false)}>
-                                                <IconContext.Provider  value={{size:'20px',color:'white'}}>
-                                                    <RiArrowLeftSLine/>
-                                                </IconContext.Provider>
+                                {!refresh ? <>
+
+                                    {
+                                        Object.entries(availableTraits).map((valueArray) => {
+                                            return (<>
+                                                {/* [trait,[image,category]] */}
+                                                <h6 style={{ color: "white" }}>{valueArray[0]}</h6>
+                                                <div className="viewAvailablePartsRow">
+                                                    <div className="partsArrow" onClick={() => scrollTraitRow(valueArray[0] + 'Div', false)}>
+                                                        <IconContext.Provider value={{ size: '20px', color: 'white' }}>
+                                                            <RiArrowLeftSLine />
+                                                        </IconContext.Provider>
+                                                    </div>
+                                                    <div id={valueArray[0] + 'Div'} className="viewAvailablePartsScroll">
+                                                        {
+                                                            valueArray[1].map((value) => {
+                                                                return (
+                                                                    <div style={{ position: 'relative', display: 'inline-block', margin: '4px' }}>
+                                                                        <LazyLoadImage name={valueArray[0]} className="partsHolder" src={editImageLink(value[0])} onClick={(e) => { partClick(valueArray[0], editImageLink(value[0]), e) }} />
+                                                                        <h6 className={value[1]}>{value[1]}</h6>
+                                                                        {value[2] > 1 ? <h6 className="traitAmountTxt">{value[2]}</h6> : <></>}
+
+                                                                    </div>
+                                                                )
+                                                            })
+                                                        }
+                                                    </div>
+                                                    <div className="partsArrow" onClick={() => scrollTraitRow(valueArray[0] + 'Div', true)}>
+                                                        <IconContext.Provider value={{ size: '20px', color: 'white' }}>
+                                                            <RiArrowRightSLine />
+                                                        </IconContext.Provider>
+                                                    </div>
                                                 </div>
-                                                <div id={valueArray[0]+'Div'} className="viewAvailablePartsScroll">
-                                                {
-                                                    valueArray[1].map((value) => {
-                                                        return (
-                                                            <div style={{position:'relative', display: 'inline-block' ,margin:'4px'}}>
-                                                                    <LazyLoadImage name={valueArray[0]} className="partsHolder" src={editImageLink(value[0])} onClick={(e) => { partClick(valueArray[0], editImageLink(value[0]), e) }} />
-                                                                    <h6 className={value[1]}>{value[1]}</h6>
-                                                                    {value[2]>1?<h6 className="traitAmountTxt">{value[2]}</h6>:<></>}
-                                                                    
-                                                            </div>
-                                                        )
-                                                    })
-                                                }
-                                                </div>
-                                                <div className="partsArrow" onClick={()=>scrollTraitRow(valueArray[0]+'Div',true)}>
-                                                <IconContext.Provider value={{size:'20px',color:'white'}}>
-                                                    <RiArrowRightSLine/>
-                                                </IconContext.Provider>
-                                                </div>
-                                            </div>
-                                        </>)
-                                    })
-                                }
+                                            </>)
+                                        })
+                                    }
                                 </>
-                                :
-                                <Spinner variant="light" animation="border" className="centerSpinner" />
-                            }
+                                    :
+                                    <Spinner variant="light" animation="border" className="centerSpinner" />
+                                }
                             </div>
-                            <IconContext.Provider value={{color:'white',size:'20px'}}>
-                                <RiArrowDownSLine onClick={()=>scrollAvailableDiv(false)}/>
+                            <IconContext.Provider value={{ color: 'white', size: '20px' }}>
+                                <RiArrowDownSLine onClick={() => scrollAvailableDiv(false)} />
                             </IconContext.Provider>
                         </div>
                         <div className="viewTamagoSection">
