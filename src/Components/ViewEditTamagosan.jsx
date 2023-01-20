@@ -354,44 +354,51 @@ const ViewEditTamagosan = () => {
         for (let i = 0; i < idsToUnstake.length; i++) {
             amounts.push(1)
         }
-        var amountsStake = []
+        // var amountsStake = []
         var idsToStake = selectedTokenIDs.filter(value => !stakedIDs.includes(value.toString()))
-        for (let i = 0; i < idsToStake.length; i++) {
-            amountsStake.push(1)
-        }
+        // for (let i = 0; i < idsToStake.length; i++) {
+        //     amountsStake.push(1)
+        // }
         var tokenIDsForMappingUnstake = stakedIDs.filter(value => !idsToUnstake.includes(value))
         try {
             var contract = new ethers.Contract(NFTAddress, NFTABI, provider.getSigner())
 
-            console.log('stake', idsToStake)
-            console.log('unstake', idsToUnstake)
-            console.log('tokenIds', selectedTokenIDs)
+            // console.log('stake', idsToStake)
+            // console.log('unstake', idsToUnstake)
+            // console.log('tokenIds', selectedTokenIDs)
 
-            if (idsToUnstake.length > 0 && idsToUnstake[0] != '') {
-                var tx = await contract.unstakeParts(selectedID, tokenIDsForMappingUnstake, idsToUnstake, amounts)
-                var result = await tx.wait()
-            }
-            else {
-                var result = true
-            }
-            if (result['status'] === 1 || result === true) {
-                if (idsToStake.length > 0) {
-                    console.log("wow")
-                    var tx = await contract.stakeParts(selectedID, selectedTokenIDs, idsToStake, amountsStake)
+            // if (idsToUnstake.length > 0 && idsToUnstake[0] != '') {
+            //     var tx = await contract.unstakeParts(selectedID, tokenIDsForMappingUnstake, idsToUnstake, amounts)
+            //     var result = await tx.wait()
+            // }
+            // else {
+            //     var result = true
+            // }
+            // if (result['status'] === 1 ) {
+                // if (idsToStake.length > 0) {
+                    console.log(idsToStake)
+                    console.log(idsToUnstake)
+                    console.log(selectedTokenIDs)
+                    
+                    var tx = await contract.editTamago(selectedID, idsToStake, idsToUnstake,selectedTokenIDs)
                     var resultResponse = await tx.wait()
-                }
-                else {
-                    var resultResponse = true
-                }
-                if (resultResponse['status'] === 1 || resultResponse === true) {
+                    
+                // }
+                // else {
+                //     var resultResponse = true
+                // }
+                if (resultResponse['status'] === 1) {
                     await requestServer(selectedTokenIDs)
-                    editComplete()
                     setMessage("Tamago Updated")
+                    editComplete()
                 }
-            }
-            else {
-                e.target.innerHTML = "Failed...Try again!"
-            }
+                else{
+                    e.target.innerHTML = "Failed...Try again!"
+                }
+            // }
+            // else {
+            //     e.target.innerHTML = "Failed...Try again!"
+            // }
         }
         catch (err) {
             e.target.innerHTML = "Failed...Try again!"

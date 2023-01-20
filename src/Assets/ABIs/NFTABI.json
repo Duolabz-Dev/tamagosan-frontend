@@ -227,6 +227,34 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
+				"name": "tamagosanID",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "idsToStake",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "idsToUnstake",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "newTokenIDs",
+				"type": "uint256[]"
+			}
+		],
+		"name": "editTamago",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
 				"name": "tokenId",
 				"type": "uint256"
 			}
@@ -674,34 +702,6 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "tamagosanID",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "tokenIDs",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "stakeIDs",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "amounts",
-				"type": "uint256[]"
-			}
-		],
-		"name": "stakeParts",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "bytes4",
 				"name": "interfaceId",
 				"type": "bytes4"
@@ -778,7 +778,7 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "tokenId",
+				"name": "tokenID",
 				"type": "uint256"
 			}
 		],
@@ -851,34 +851,6 @@
 			}
 		],
 		"name": "transferOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "tamagosanID",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "tokenIDs",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "unstakeIDs",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "unstakeAmounts",
-				"type": "uint256[]"
-			}
-		],
-		"name": "unstakeParts",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
