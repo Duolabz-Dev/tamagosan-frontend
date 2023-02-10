@@ -5,6 +5,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom'
 import { ConnectionContext } from '../App'
 import Tamagosan from '../Assets/Images/banner image -min.png'
 import RandomMint from './RandomMint'
+import TamagoStake from './TamagoStake'
 import ViewEditTamagosan from './ViewEditTamagosan'
 
 const Body = () => {
@@ -30,10 +31,12 @@ const Body = () => {
                 <ButtonGroup style={{marginBottom:'10px'}}>
                     <ToggleButton variant='outline-warning' type='radio' checked={window.location.href.includes('mint')} onClick={()=>{navigate('/mint')}}>Mint</ToggleButton>
                     <ToggleButton variant='outline-warning' type='radio' checked={window.location.href.includes('view')}  onClick={()=>{navigate('/view')}}>View/Edit</ToggleButton>
+                    <ToggleButton variant='outline-warning' type='radio' checked={window.location.href.includes('stake')}  onClick={()=>{navigate('/stake')}}>Stake</ToggleButton>
                 </ButtonGroup>
                     <Routes>
                         <Route path='/mint' element={<RandomMint/>}/>
                         <Route path='/view' element={<ViewEditTamagosan/>}/>
+                        <Route path='/stake' element={<TamagoStake/>}/> 
                     </Routes>
             </div>
         
