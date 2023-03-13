@@ -12,7 +12,7 @@ export const ContractContext = createContext()
 export const ServerContext = createContext()
 
 function App() {
-  const NFTAddress = ''
+  const NFTAddress = '0x9e376077F5FD2a8DF9eC2eA39Fe9AF735c9bDb90'
   const TraitAddress = '0xA20bA187905cee463f57220fc5ee3B5Ae2382aA9'
   const [connected, setConnected] = useState(false)
   const [provider, setProvider] = useState(null)
