@@ -12,15 +12,15 @@ export const ContractContext = createContext()
 export const ServerContext = createContext()
 
 function App() {
-  const NFTAddress = '0x8281F3467Ffd0d3F028cc084a14E690FBE5Fb675'
-  const TraitAddress = '0x8e75Ff5917844CfA0067d66018ef16ca6E96ba10'
+  const NFTAddress = '0x9e376077F5FD2a8DF9eC2eA39Fe9AF735c9bDb90'
+  const TraitAddress = '0xA20bA187905cee463f57220fc5ee3B5Ae2382aA9'
   const [connected, setConnected] = useState(false)
   const [provider, setProvider] = useState(null)
   const [address, setAddress] = useState(null)
   const [isChainCorrect, setIsChainCorrect] = useState(null)
   // const serverURL = 'https://tamagosan-server-cmh4q.ondigitalocean.app/'
   const serverURL = 'http://127.0.0.1:8000/'
-  const spacesURl = 'https://tamagosan.fra1.cdn.digitaloceanspaces.com/'
+  const spacesURl = 'https://tamagosan.fra1.digitaloceanspaces.com/'
 
   return (
     <div className="App text">
