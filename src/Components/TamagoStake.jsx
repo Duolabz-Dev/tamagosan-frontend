@@ -80,12 +80,17 @@ const TamagoStake = () => {
         var data = res.data
         try{
             console.log(data)
-            var fullset = data['attributes'][data['attributes'].length-1]['trait_type']
+            var fullset = data['attributes'][data['attributes'].length-2]['trait_type']
             if(fullset!=='fullset'){
                 return [false,'']
             }
-            var value = data['attributes'][data['attributes'].length-1]['value']
-            return [true,value.split(' ')[value.split(' ').length-1]]
+            var value = data['reward']
+            if(value!=undefined){
+            return [true,value]
+            }
+            else{
+                return [false,'']
+            }
         }
         catch{
             return [false,'']
